@@ -1,22 +1,19 @@
 const fs = require('fs');
 const request = require('request');
-const breedName = process.argv[2];
-const url = `https://api.thecatapi.com/v1/breeds/search?q=${breedName}`;
+
+const fetchBreedDescription = function(breedName, callback) {
+  const url = `https://api.thecatapi.com/v1/breeds/search?q=${breedName}`;
+  request(url, (error, response, body) => {
+    const data = JSON.parse(body);
+    const breed = data[0];
+    callback(error, breed.description);
+  });
+};
 
 
-request(url, (error, response, body) => {
-  console.log('error:', error); // Print the error if one occurred
-  console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-  //console.log('body:\n', body);
-  const data = JSON.parse(body);
-  const breed = data[0];
-  if (breed) {
-    console.log(breed.description);
-  } else {
-    console.log(`Failed to find breed ${breedName}`);
-  }
-});
+module.exports = {fetchBreedDescription};
 
+/*
 const download = function(content) {
   fs.writeFile("./tmp/index.html", content, function(err) {
     if (err) {
@@ -31,3 +28,4 @@ const getFilesizeInBytes = function(filename) {
   const fileSizeInBytes = stats.size;
   return fileSizeInBytes;
 };
+*/
