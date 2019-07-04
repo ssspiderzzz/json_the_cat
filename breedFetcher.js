@@ -1,4 +1,3 @@
-const fs = require('fs');
 const request = require('request');
 
 const fetchBreedDescription = function(breedName, callback) {
@@ -9,7 +8,6 @@ const fetchBreedDescription = function(breedName, callback) {
     callback(error, breed.description);
   });
 };
-
 
 module.exports = {fetchBreedDescription};
 
